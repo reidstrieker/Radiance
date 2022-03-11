@@ -24,7 +24,7 @@ class mVector {
         mVector<T> operator+ (const mVector<T> &v) const; // overload addition operator
         mVector<T> operator- (const mVector<T> &v) const; // overload subtraction operator
         mVector<T> operator* (const T &c) const; // overload product with constant operator
-        template <class U> friend vector<U> operator* (const U& c, const mVector<U>& v); // friend to product overload
+        template <class U> friend mVector<U> operator* (const U& c, const mVector<U>& v); // friend to product overload
         static T dot(const mVector<T>& a, const mVector<T>& b); // function to compute the dot product, e.g. a_1b_1 + a_2b_2 + ... + a_nb_n
         static mVector<T> cross(const mVector<T>& a, const mVector<T>& b); // function to compute the cross product, e.g. find formal determinant
     

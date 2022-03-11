@@ -1,4 +1,5 @@
 #include "window.hpp"
+#include "mVector.hpp"
 
 // constructor
 window::window() {
@@ -20,14 +21,28 @@ bool window::windowInit() {
          // initialize the image instance
          rImage.imageInit(1280, 720, rRenderer);
 
-         // create some color variations
-         for(int x = 0; x < 1280; x++) {
-             for(int y = 0; y < 720; y++) {
-                 double red = (static_cast<double>(x)/1280.0) * 255.0;
-                 double green = (static_cast<double>(y)/720.0) * 255.0;
-                 rImage.setPixelColor(x, y, red, green, 0.0);
-             }
-         }
+         // test the camera
+         camera testCamera;
+         testCamera.setPosition(mVector<double>(std::vector<double>{0.0, 0.0, 0.0}));
+         testCamera.setFrame(mVector<double>(std::vector<double>{0.0, 2.0, 0.0}));
+         testCamera.setUpDirection(mVector<double>(std::vector<double>{0.0, 0.0, 1.0}));
+         testCamera.setLength(1.0);
+         testCamera.setHorizontal(1.0);
+         testCamera.setAspectRatio(1.0);
+         testCamera.updateCameraGeometry();
+
+         // get the screen center, vectors U and V, and display
+         auto screenCenter = testCamera.getScreenCenter();
+         auto screenU = testCamera.getU();
+         auto screenV = testCamera.getV();
+
+         // display to the terminal
+         std::cout << "Camera screen center: " << std::endl;
+         printVector(screenCenter);
+         std::cout << "\nCamera U vector: " << std::endl;
+         printVector(screenU);
+         std::cout << "\nCamra V vector: " << std::endl;
+         printVector(screenV);
     }
     else
         return false;
@@ -45,11 +60,11 @@ int window::eventListener() {
         while(SDL_PollEvent(&event) != 0) // continuously poll for events
             eventHandler(&event); // handle the event if one is found
 
-        // the following below will be removed later
-        SDL_SetRenderDrawColor(rRenderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(rRenderer, 255, 255, 255, 255); // set the background color to white
         SDL_RenderClear(rRenderer);
-        rImage.display();
-        SDL_RenderPresent(rRenderer);
+        rScene.render(rImage); // render the scene
+        rImage.display(); // display the image
+        SDL_RenderPresent(rRenderer); // show the result
     }
 }
 
@@ -66,4 +81,11 @@ void window::exit() {
     SDL_DestroyWindow(rWindow);
     rWindow = NULL;
     SDL_Quit();
+}
+
+// function to print vector to terminal
+void window::printVector(const mVector<double>& inputVector) {
+    int rows = inputVector.getDims();
+    for(int row = 0; row < rows; row++)
+        std::cout << std::fixed << std::setprecision(3) << inputVector.getElement(row) << std::endl;
 }

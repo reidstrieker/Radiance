@@ -111,3 +111,12 @@ Uint32 image::convertColor(const double red, const double green, const double bl
 
 	return pixelColor;
 }
+
+// functions to return image dimensions
+int image::getXSize() {
+    return imageX;
+}
+
+int image::getYSize() {
+    return imageY;
+}

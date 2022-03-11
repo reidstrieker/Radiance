@@ -16,6 +16,9 @@ class image {
         void setPixelColor(const int x, const int y, const double red, const double green, const double blue);
         // function to display the image
         void display();
+        // functions to return image dimensions
+        int getXSize();
+        int getYSize();
 
     private:
         // FUNCTIONS:
