@@ -30,8 +30,8 @@ class mVector {
     
     private:
         // VARIABLES:
-        std::vector<T> vectorData;
-        int vectorDims;
+        std::vector<T> vectorData; // data contained in vector
+        int vectorDims; // vector dimensions, e.g. size of vector
 };
 
 // constructor

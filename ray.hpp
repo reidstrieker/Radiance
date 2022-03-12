@@ -13,9 +13,9 @@ class ray {
         mVector<double> getEnd() const;
 
         // VARIABLES:
-        mVector<double> start{3};
-        mVector<double> end{3};
-        mVector<double> startToEnd{3};
+        mVector<double> start{3}; // start vector
+        mVector<double> end{3}; // end vector
+        mVector<double> startToEnd{3}; // vector from start to end
 };
 
 #endif

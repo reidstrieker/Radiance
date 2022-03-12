@@ -11,67 +11,83 @@ camera::camera() {
     aspectRatio = 1.0;
 }
 
+// set camera position
 void camera::setPosition(const mVector<double>& newPosition) {
     position = newPosition;
 }
 
+// set the frame for the camera to look at
 void camera::setFrame(const mVector<double>& newFrame) {
     frame = newFrame;
 }
 
+// set vector direction of up
 void camera::setUpDirection(const mVector<double>& newUpDir) {
     upDir = newUpDir;
 }
 
+// set distance of projection screen from pinhole
 void camera::setLength(double newLength) {
     length = newLength;
 }
 
+// set horizontal pixel count
 void camera::setHorizontal(double newHorz) {
     horizontal = newHorz;
 }
 
+// set aspect ratio
 void camera::setAspectRatio(double newAspect) {
     aspectRatio = newAspect;
 }
 
+// return camera position
 mVector<double> camera::getPosition() {
     return position;
 }
 
+// return frame
 mVector<double> camera::getFrame() {
     return frame;
 }
 
+// return up vector
 mVector<double> camera::getUpDirection() {
     return upDir;
 }
 
+// return distance of projection screen from pinhole
 double camera::getLength() {
     return length;
 }
 
+// return horizontal pixel count
 double camera::getHorizontal() {
     return horizontal;
 }
 
+// return aspect ratio
 double camera::getAspectRatio() {
     return aspectRatio;
 }
 
+// get local horizontal screen coordinate vector
 mVector<double> camera::getU() {
     return projectionScreenU;
 }
 
+// get local vertical screen coordinate vector
 mVector<double> camera::getV() {
     return projectionScreenV;
 }
 
+// return vector to center of screen
 mVector<double> camera::getScreenCenter() {
     return projectionScreenCenter;
 }
 
-void camera::updateCameraGeometry() {
+// function to calculate camera geometry vectors
+void camera::calculateGeometry() {
     // get the vector going from the camera position to where it looks at
     alignmentVector = frame - position;
 
@@ -92,6 +108,7 @@ void camera::updateCameraGeometry() {
     projectionScreenV = projectionScreenV * (horizontal / aspectRatio);
 }
 
+// function to create a light ray
 ray camera::createRay(float proScreenX, float proScreenY) {
     // find the 2D screen point (e.g. find the screen pixel)
     mVector<double> screenCoordinate = projectionScreenCenter + (projectionScreenU * proScreenX) + (projectionScreenV * proScreenY);

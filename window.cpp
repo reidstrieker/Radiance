@@ -29,7 +29,7 @@ bool window::windowInit() {
          testCamera.setLength(1.0);
          testCamera.setHorizontal(1.0);
          testCamera.setAspectRatio(1.0);
-         testCamera.updateCameraGeometry();
+         testCamera.calculateGeometry();
 
          // get the screen center, vectors U and V, and display
          auto screenCenter = testCamera.getScreenCenter();
