@@ -6,6 +6,8 @@
 class ray {
     public:
         // FUNCTIONS:
+        // constructor
+        ray();
         // constructor for a ray between two vectors 
         ray(const mVector<double>& startVec, const mVector<double>& endVec);
         // functions to return start and end vectors
@@ -15,7 +17,7 @@ class ray {
         // VARIABLES:
         mVector<double> start{3}; // start vector
         mVector<double> end{3}; // end vector
-        mVector<double> startToEnd{3}; // vector from start to end
+        mVector<double> startToEnd{3}; // vector from start to end (direction)
 };
 
 #endif

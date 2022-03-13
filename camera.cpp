@@ -31,7 +31,7 @@ void camera::setLength(double newLength) {
     length = newLength;
 }
 
-// set horizontal pixel count
+// set horizontal size
 void camera::setHorizontal(double newHorz) {
     horizontal = newHorz;
 }
@@ -61,7 +61,7 @@ double camera::getLength() {
     return length;
 }
 
-// return horizontal pixel count
+// return horizontal size
 double camera::getHorizontal() {
     return horizontal;
 }
@@ -109,8 +109,13 @@ void camera::calculateGeometry() {
 }
 
 // function to create a light ray
-ray camera::createRay(float proScreenX, float proScreenY) {
+bool camera::createRay(float proScreenX, float proScreenY, ray& cameraRay) {
     // find the 2D screen point (e.g. find the screen pixel)
-    mVector<double> screenCoordinate = projectionScreenCenter + (projectionScreenU * proScreenX) + (projectionScreenV * proScreenY);
-    return ray(position, screenCoordinate);
+    mVector<double> screenCoordinate = projectionScreenCenter + (projectionScreenU * proScreenX);
+    screenCoordinate = screenCoordinate + (projectionScreenV * proScreenY);
+    // use this screen point and the camera position to create the ray
+    cameraRay.start = position;
+    cameraRay.end = screenCoordinate;
+    cameraRay.startToEnd = screenCoordinate - position;
+    return true;
 }

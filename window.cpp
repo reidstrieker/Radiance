@@ -21,28 +21,18 @@ bool window::windowInit() {
          // initialize the image instance
          rImage.imageInit(1280, 720, rRenderer);
 
-         // test the camera
-         camera testCamera;
-         testCamera.setPosition(mVector<double>(std::vector<double>{0.0, 0.0, 0.0}));
-         testCamera.setFrame(mVector<double>(std::vector<double>{0.0, 2.0, 0.0}));
-         testCamera.setUpDirection(mVector<double>(std::vector<double>{0.0, 0.0, 1.0}));
-         testCamera.setLength(1.0);
-         testCamera.setHorizontal(1.0);
-         testCamera.setAspectRatio(1.0);
-         testCamera.calculateGeometry();
+        // set the background color to white
+        SDL_SetRenderDrawColor(rRenderer, 255, 255, 255, 255);
+        SDL_RenderClear(rRenderer);
+        
+        // render the scene
+        rScene.render(rImage);
 
-         // get the screen center, vectors U and V, and display
-         auto screenCenter = testCamera.getScreenCenter();
-         auto screenU = testCamera.getU();
-         auto screenV = testCamera.getV();
+        // display the image
+        rImage.display();
 
-         // display to the terminal
-         std::cout << "Camera screen center: " << std::endl;
-         printVector(screenCenter);
-         std::cout << "\nCamera U vector: " << std::endl;
-         printVector(screenU);
-         std::cout << "\nCamra V vector: " << std::endl;
-         printVector(screenV);
+        // show the result
+        SDL_RenderPresent(rRenderer);
     }
     else
         return false;
@@ -51,6 +41,7 @@ bool window::windowInit() {
 
 // function to check for events
 int window::eventListener() {
+    
     SDL_Event event;
 
     if(windowInit() == false) // if initialization failed
@@ -59,13 +50,8 @@ int window::eventListener() {
     while(isRunning) { // if the window is running
         while(SDL_PollEvent(&event) != 0) // continuously poll for events
             eventHandler(&event); // handle the event if one is found
-
-        SDL_SetRenderDrawColor(rRenderer, 255, 255, 255, 255); // set the background color to white
-        SDL_RenderClear(rRenderer);
-        rScene.render(rImage); // render the scene
-        rImage.display(); // display the image
-        SDL_RenderPresent(rRenderer); // show the result
     }
+    
 }
 
 // function to handle events

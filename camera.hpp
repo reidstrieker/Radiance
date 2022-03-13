@@ -12,7 +12,7 @@ class camera {
         void setFrame(const mVector<double>& newFrame); // set the frame for the camera to look at
         void setUpDirection(const mVector<double>& newUpDir); // set vector direction of up
         void setLength(double newLength); // set distance of projection screen from pinhole
-        void setHorizontal(double newHorz); // set horizontal pixel count
+        void setHorizontal(double newHorz); // set horizontal size
         void setAspectRatio(double newRatio); // set aspect ratio
         mVector<double> getPosition(); // return camera position
         mVector<double> getFrame(); // return frame
@@ -23,7 +23,7 @@ class camera {
         double getLength(); // return distance of projection screen from pinhole
         double getHorizontal(); // return horizontal pixel count
         double getAspectRatio(); // return aspect ratio
-        ray createRay(float proScreenX, float proScreenY); // function to create a light ray
+        bool createRay(float proScreenX, float proScreenY, ray& cameraRay); // function to create a light ray
         void calculateGeometry(); // function to calculate camera geometry vectors
 
     private:
@@ -32,7 +32,7 @@ class camera {
         mVector<double> frame{3}; // direction for camera to look at
         mVector<double> upDir{3}; // up direction vector
         double length; // distance of projection screen from pinhole
-        double horizontal; // horizontal screen pixel count
+        double horizontal; // horizontal size
         double aspectRatio; // image aspect ratio
         mVector<double> alignmentVector{3};
         mVector<double> projectionScreenU{3}; // local horizontal screen coordinate vector
