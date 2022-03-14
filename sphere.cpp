@@ -24,7 +24,7 @@ bool sphere::testIntersection(const ray& castRay, mVector<double>& poi, mVector<
     // b = 2v*p_0, where v is direction of castRay and p_0 is the start of castRay
     // c = (p_0)^2-r^2, where r is the radius of the sphere
     // and we can test if there is an intersection by checking if this is true:
-    // b^2-4ac > 0
+    // b^2-4ac > 0 (the discriminant)
 
     mVector<double> rayDir = castRay.startToEnd; // get direction of ray
     rayDir.normalize(); // make sure direction is a unit vector
@@ -32,7 +32,23 @@ bool sphere::testIntersection(const ray& castRay, mVector<double>& poi, mVector<
     double a = 1.0; // this is not needed
     double b = 2.0 * mVector<double>::dot(rayDir, rayStart);
     double c = mVector<double>::dot(rayStart, rayStart) - 1.0; // we subtract 1 as this is a unit sphere and r = 1
-    if(((b*b)-(4.0*c)) > 0.0)
+    double discrim = ((b*b)-(4.0*c)); // calculate discriminant
+    if(discrim > 0.0) {
+        // if the plus or minus part of the quadratic formula is negative
+        // then part of the object is behind the camera and can be ignored
+        // otherwise calculate point of intersection closest to camera
+
+        double quadratic1 = (-b + sqrtf(discrim)) / 2.0; // first point of intersection
+        double quadratic2 = (-b - sqrtf(discrim)) / 2.0; // second point of intersection
+        if(quadratic1 < 0.0 || quadratic2 < 0.0)
+            return false;
+        else {
+            if(quadratic1 < quadratic2) // if q1 is closer than q2
+                poi = castRay.start + (rayDir * quadratic1); 
+            else // if q2 is closer than q1
+                poi = castRay.start + (rayDir * quadratic2);
+        }
         return true;
+    }
     return false;
 }

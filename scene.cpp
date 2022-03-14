@@ -36,14 +36,23 @@ bool scene::render(image &outputImage) {
             rCamera.createRay(xNorm, yNorm, cameraRay);
             // check for an intersection
             if(testSphere.testIntersection(cameraRay, poi, localNormal, localColor)) {
+                // compute distance between camera and point of intersection
+                double dist = (poi - cameraRay.start).getNorm(); // recall this calculates vector length
+                // set min and max distances accordingly
+                if(dist > maxDist)
+                    maxDist = dist;
+                if(dist < minDist)
+                    minDist = dist;
                 // change the color of the sphere to red
-                outputImage.setPixelColor(x, y, 255.0, 0.0, 0.0);
+                outputImage.setPixelColor(x, y, 255.0 - ((dist - 9.0) / 0.94605) * 255.0, 0.0, 0.0);
             }
             else
                 // add no color to the image
                 outputImage.setPixelColor(x, y, 0.0, 0.0, 0.0);
         }
     }
-
+    std::cout << "minDist: " << minDist << std::endl;
+    std::cout << "maxDist: " << maxDist << std::endl;
+    
     return true;
 }
