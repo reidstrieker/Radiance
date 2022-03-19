@@ -2,14 +2,10 @@
 #include <cmath>
 
 // constructor (defines a unit sphere at the origin)
-sphere::sphere() {
-
-}
+sphere::sphere() {}
 
 // destructor (objectBase override)
-sphere::~sphere() {
-
-}
+sphere::~sphere() {}
 
 // function to test whether a casted ray has a point of intersection with the object (objectBase override)
 bool sphere::testIntersection(const ray& castRay, mVector<double>& poi, mVector<double>& localNormal, mVector<double>& localColor) {
@@ -47,6 +43,8 @@ bool sphere::testIntersection(const ray& castRay, mVector<double>& poi, mVector<
                 poi = castRay.start + (rayDir * quadratic1); 
             else // if q2 is closer than q1
                 poi = castRay.start + (rayDir * quadratic2);
+            localNormal = poi; // the normal of the sphere is very simple
+            localNormal.normalize(); // make sure it's noramlized
         }
         return true;
     }
